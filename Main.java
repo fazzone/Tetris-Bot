@@ -16,11 +16,6 @@ import tai.ai.MoveEvaluator;
 import tai.branch.PiecePlacements;
 import tai.util.Pair;
 
-
-//level 70
-//1,235,508 pts
-//606 lines
-
 public class Main {
 	public static void main(String[] args) throws Exception {
 		Robot r = new Robot();
@@ -29,7 +24,7 @@ public class Main {
 		while (true) {
 			long b = System.currentTimeMillis();
 			
-			move(r);
+			move(r, p);
 			
 			long elapsed = System.currentTimeMillis() - b;
 			System.out.println(elapsed+"ms");
@@ -37,7 +32,7 @@ public class Main {
 			Thread.sleep(100);	//ensures that the board is read accurately	
 		}
 	}
-	static void move(Robot r) throws Exception {
+	static void move(Robot r, Player p) throws Exception {
 		Board b = BoardReader.read(r);
 		final Piece next = NextPiece.readNextPiece(r.createScreenCapture(new Rectangle(NPX, NPY, 256, 256)));
 		List<Pair<Move, Board>> moves = PiecePlacements.moves(b);
@@ -48,6 +43,6 @@ public class Main {
 				return MoveEvaluator.score(b.second, next) - MoveEvaluator.score(a.second, next);
 			}
 		});
-		new Player(r).play(moves.get(0).first);
+		p.play(moves.get(0).first);
 	}
 }
