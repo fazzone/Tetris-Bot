@@ -1,0 +1,49 @@
+Basically, this program plays tetris.
+
+The tetris game that it interfaces with is at http://www.freetetris.org/
+
+To run:
+	-Somehow make yourself able to run the program.  Import it into an IDE, compile from the shell, whatever.
+	-Before running the program, you must make sure that the Tetris game in your browser is *playing* and not occluded.
+		-> That is, a piece should be on its way down by the time you start the program, and no windows can be on top of
+		-> and obscuring the tetris game (the little box with the next piece must also be completely visible)
+	-Run the program.  It may take a second to calibrate itself (assuming my calibration code works on your computer,
+		which is anything but a given), and then it should start placing pieces.
+	-If it does really stupid things and loses extremely quickly, then it is most likely not reading the board correctly.
+		-> If this happens, your options include:
+			+ Attempt to debug the program yourself.  This would likely involve placing some ImageIO.write's wherever
+				screengrabs are being passed around, and making sure that all is as it should be.
+			+ Send me (via email) a screenshot of your entire screen at the time of failure (after the program loses)
+			+ Declaring that seeing some guy's stupid tetris bot isn't worth all the damn trouble.
+	-If you get a score higher than 16,492,323 (my record), I'd love to hear about it! (remember to take a screenshot)
+
+Some notes / thoughts / ramblings / gibberish:
+
+*The 'AI', such that it is, resides in MoveEvaluator.java.  The constants found in the scoring function are essentially
+made up, with a little bit of tweaking.  A logical extension of this program would be to do a genetic algorithm to find
+optimal constants (I've seen that done, so I haven't been incredibly motivated to do it (though that may change)).
+Another interesting change to the 'AI' would be to make it weight line-clearing more and more as it builds higher.
+
+*Because of the simplicity of the problem (or perhaps the naïveté of my solution), the part of the program that actually
+'plays tetris' (as in, decides on the best move to make) is a tiny amount of code compared I/O portion of the program,
+which is responsible for reading the board from the screen and actually making moves happen.
+
+*At the time of writing, I'd been learning Haskell, and I feel that the design of the program is to some extent influenced
+by this.  The low-level organization of the code into files is not particularly object-oriented -- most of the 'classes'
+are used pretty much as namespaces (that is, containing only static methods and never being instantiated).  In this sense,
+the organization is ugly because I have all these .java files which, according to convention, should correspond to
+instantiable types, but don't.  On a bit of a higher level than naming and file-structure, I tried to split the IO code off
+from the rest of the program (it has its own little subpackage).  I don't feel that I was very successful, but I think that
+even only the (Haskell-inspired) semiconscious desire to not have IO code coexist with actual program functionality really
+helped me write clean, clear, and concise code.  So, though I didn't really achieve enlightenment so far as
+IO / pure-functional division of the code, I think the code that resulted is among the cleanest and most beautiful I've yet
+written, so I'm pretty pleased with that.
+
+*I tried to stick to a file-length limit of 50 lines.  As I write this version of the readme, only one file (PieceFind.java)
+goes over that limit, and by less than 10 lines.  Holding myself to this standard produced, predictably, a massive amount
+of tiny files, which I organized into subpackages by general function.  Perhaps in the real world 50-lines-a-file is a 
+completely unreasonable standard which decreases clarity by breaking encapsulation (forcing logic to be made public so it
+can be spread across multiple files), but I think that it's worked pretty well in this case.  I, for one, prefer to attack
+complexity with large amounts of tiny files rather than reasonable amounts of reasonable-length files.
+
+
